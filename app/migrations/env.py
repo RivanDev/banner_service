@@ -7,8 +7,13 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-from core import settings
-from db.models.base import Base
+from application.core.config import settings
+from application.db.models.base import Base
+
+from application.db.models.banner import Banner  # noqa
+from application.db.models.feature import Feature  # noqa
+from application.db.models.tag import Tag  # noqa
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
