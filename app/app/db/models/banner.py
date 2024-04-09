@@ -11,6 +11,9 @@ if TYPE_CHECKING:
 
 
 class Banner(Base):
+    title: Mapped[str]
+    text: Mapped[str]
+    url: Mapped[str]
     is_active: bool = True
 
     feature_id: Mapped[int] = mapped_column(ForeignKey("features.id"))
