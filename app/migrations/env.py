@@ -13,6 +13,7 @@ from application.db.models.base import Base
 from application.db.models.banner import Banner  # noqa
 from application.db.models.feature import Feature  # noqa
 from application.db.models.tag import Tag  # noqa
+from application.db.models.banner_tag_association import BannerTagAssociation  # noqa
 
 
 # this is the Alembic Config object, which provides
