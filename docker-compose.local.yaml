@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   banners_app:
+    container_name: banners_app
     build:
       context: .
       dockerfile: Dockerfile

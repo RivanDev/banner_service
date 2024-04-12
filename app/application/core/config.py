@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_NAME: str
+    ECHO: bool = True
 
     @property
     def database_url(self):
