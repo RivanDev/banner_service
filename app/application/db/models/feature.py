@@ -9,4 +9,4 @@ if TYPE_CHECKING:
 
 
 class Feature(Base):
-    banners: Mapped["Banner"] = relationship(back_populates="feature")
+    banners: Mapped[list["Banner"]] = relationship(back_populates="feature")

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 
 from .base import Base
 
@@ -9,5 +9,7 @@ if TYPE_CHECKING:
 
 
 class Tag(Base):
-    banner_id: Mapped[int] = mapped_column("banners.id")
-    banner: Mapped["Banner"] = relationship(back_populates="tags")
+    banners: Mapped[list["Banner"]] = relationship(
+        secondary="bannertagassociations",
+        back_populates="tags",
+    )

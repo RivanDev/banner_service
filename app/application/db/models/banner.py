@@ -18,4 +18,8 @@ class Banner(Base):
 
     feature_id: Mapped[int] = mapped_column(ForeignKey("features.id"))
     feature: Mapped["Feature"] = relationship(back_populates="banners")
-    tags: Mapped[list["Tag"]] = relationship(back_populates="banner")
+
+    tags: Mapped[list["Tag"]] = relationship(
+        secondary="bannertagassociations",
+        back_populates="banners",
+    )
