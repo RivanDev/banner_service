@@ -1,5 +1,5 @@
-from fastapi import Header
-from pydantic import BaseModel, constr, ConfigDict, Field
+from fastapi import Header, Path
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class BannerInFiltered(BaseModel):
@@ -34,6 +34,11 @@ class CreateBanner(BaseModel):
     feature_id: int
     content: UserBannerOut
     is_active: bool = True
+
+
+class BannerId(BaseModel):
+
+    banner_id: int = Field(default=Path(...), alias="id")
 
 
 class Tag(BaseModel):

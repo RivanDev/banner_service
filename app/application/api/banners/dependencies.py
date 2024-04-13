@@ -36,6 +36,21 @@ async def create_banner(banner: CreateBanner, session: AsyncSession = Depends(db
     return banner
 
 
+async def update_banner(
+    id: int, banner: CreateBanner, session: AsyncSession = Depends(db_helper.scoped_session_dependency)
+):
+    banner = await crud.update_banner(
+        banner_id=id,
+        banner=banner,
+        session=session,
+    )
+    return banner
+
+
+async def delete_banner(id: int, session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
+    await crud.delete_banner(banner_id=id, session=session)
+
+
 async def create_tag(session: AsyncSession = Depends(db_helper.scoped_session_dependency)):
     tag = await crud.create_tag(session=session)
     return tag
