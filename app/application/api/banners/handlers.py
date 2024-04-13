@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Header, Query, Depends
 from starlette import status
 
-from application.api.banners.dependencies import get_banner_by_ids, create_banner, get_banners_filtered
+from application.api.banners.dependencies import get_banner_by_ids, create_banner
 from application.api.banners.schemas import BannerOut, UserBannerOut, CreateBanner
 
 banner_router = APIRouter()
@@ -38,13 +38,29 @@ async def create_banner(
     return banner
 
 
-@banner_router.get("/", summary="Получение всех баннеров с фильтрацией по фиче и/или тегу")
-async def get_banners_by_filters(
-    limit: int,
-    offset: int,
-    tag_id: int = Query(..., description="Тэг пользователя"),
-    feature_id: int = Query(..., description="Идетнификатор фичи"),
-    token: str = Header(description="Токен админа", json_schema_extra={"example": "admin_token"}),
-    banners: list[BannerOut] = Depends(get_banners_filtered),
+async def get_user_role(
+    token: str = Header(
+        default=None,
+        description="Токен админа",
+        json_schema_extra={"example": "admin_token"},
+    )
 ):
-    return banners
+    return token
+
+
+@banner_router.get(
+    "/",
+    summary="Получение всех баннеров с фильтрацией по фиче и/или тегу",
+    response_description="OK",
+)
+async def get_banners_by_filters(
+    token: str = Depends(get_user_role),
+    test: int = Query(None),
+    # feature_id: int | None = None,
+    # tag_id: int | None = None,
+    # limit: int | None = None,
+    # offset: int | None = None,
+    # banners: list[BannerOut] = Depends(get_banners_filtered),
+):
+    print(token)
+    return 1  # banners

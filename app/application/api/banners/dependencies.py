@@ -17,16 +17,16 @@ async def get_banner_by_ids(
 
 
 async def get_banners_filtered(
-    limit: int,
-    offset: int,
-    tag_id: int,
-    feature_id: int,
+    feature_id: int = None,
+    tag_id: int = None,
+    limit: int = None,
+    offset: int = None,
     session: AsyncSession = Depends(
         db_helper.scoped_session_dependency,
     ),
 ) -> list[Banner]:
     banners = await crud.get_banners(tag_id=tag_id, feature_id=feature_id, session=session, limit=limit, offset=offset)
-    if banners is not None:
+    if banners:
         return banners
     raise HTTPException(status_code=404, detail="Баннер не найден")
 

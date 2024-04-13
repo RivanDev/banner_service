@@ -1,7 +1,20 @@
-from pydantic import BaseModel, constr, ConfigDict
+from fastapi import Header
+from pydantic import BaseModel, constr, ConfigDict, Field
 
 
-class BannerIn(BaseModel): ...
+class BannerInFiltered(BaseModel):
+
+    token: str = Field(
+        Header(
+            default=None,
+            description="Токен админа",
+            json_schema_extra={"example": "admin_token"},
+        )
+    )
+    feature_id: int | None = None
+    tag_id: int | None = None
+    limit: int | None = None
+    offset: int | None = None
 
 
 class BannerOut(BaseModel):

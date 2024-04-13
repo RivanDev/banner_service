@@ -20,15 +20,15 @@ async def get_banners(
     tag_id: int,
     feature_id: int,
     session: AsyncSession,
-    limit: int = 0,
-    offset: int = 0,
+    limit: int | None,
+    offset: int | None,
 ) -> list[Banner]:
     stmt = (
         select(Banner)
+        .filter(Banner.feature_id == feature_id)
         .join(BannerTagAssociation)
         .filter(
             BannerTagAssociation.tag_id == tag_id,
-            Banner.feature_id == feature_id,
         )
         .limit(limit=limit)
         .offset(offset=offset)

@@ -3,10 +3,10 @@ APP_FILE = docker-compose.local.yaml
 APP_CONTAINER = banners_app
 
 lint:
-	poetry run ruff check --fix app && poetry run black --check app
+	cd app && poetry run ruff check --fix application && poetry run black --check application
 
 mypy:
-	poetry run mypy app
+	cd app && poetry run mypy application
 
 up:
 	${DC} -f ${APP_FILE} up --build -d
