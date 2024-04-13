@@ -1,5 +1,6 @@
 import pickle
-import aioredis
+
+from redis import asyncio as aioredis
 
 from application.core.config import settings
 
@@ -13,7 +14,9 @@ class CacheRepo:
         await self.cacher.set(key, pickle.dumps(value), ex=settings.EXPIRATION)
 
     async def read_cache(self, key):
-        return await self.cacher.get(key)
+        data = await self.cacher.get(key)
+        data_object = pickle.loads(data)
+        return data_object
 
     async def update_cache(self, key, value):
         await self.cacher.set(key, pickle.dumps(value), ex=settings.EXPIRATION)
