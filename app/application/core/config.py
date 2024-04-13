@@ -14,14 +14,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_NAME: str
-    ECHO: bool = True
-
-    # Тест
-    # TEST_POSTGRES_USER: str
-    # TEST_POSTGRES_PASSWORD: str
-    # TEST_POSTGRES_HOST: str
-    # TEST_POSTGRES_PORT: int
-    # TEST_POSTGRES_NAME: str
+    ECHO: bool = False
 
     REDIS_HOST: str
     REDIS_PORT: int
@@ -37,10 +30,6 @@ class Settings(BaseSettings):
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_NAME,
         ).unicode_string()
-
-    # @property
-    # def redis_url(self):
-    #     return f"redis://redis"
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
 

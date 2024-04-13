@@ -34,6 +34,7 @@ async def get_banners(
 ) -> list[Banner]:
     stmt = (
         select(Banner)
+        .options(selectinload(Banner.tags))
         .filter(Banner.feature_id == feature_id)
         .join(BannerTagAssociation)
         .filter(
