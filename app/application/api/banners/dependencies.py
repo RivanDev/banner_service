@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from application.api.banners.schemas import UserBannerOut, CreateBanner
+from application.api.banners.schemas import CreateBanner
 from application.db import crud
 from application.db.db_helper import db_helper
 from application.db.models.banner import Banner

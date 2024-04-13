@@ -1,4 +1,4 @@
-from sqlalchemy import select, Result, update
+from sqlalchemy import Result, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 

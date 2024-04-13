@@ -1,14 +1,14 @@
-from fastapi import APIRouter, Header, Query, Depends, status, Path, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException, Path, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from application.api.banners.dependencies import (
-    get_banner_by_ids,
     create_banner,
+    delete_banner,
+    get_banner_by_ids,
     get_banners_filtered,
     update_banner,
-    delete_banner,
 )
-from application.api.banners.schemas import BannerOut, UserBannerOut, CreateBanner, BannerId
+from application.api.banners.schemas import BannerOut, CreateBanner, UserBannerOut
 from application.db import crud
 from application.db.db_helper import db_helper
 from application.db.exceptions import BannerNotFoundException
