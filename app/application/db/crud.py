@@ -20,7 +20,8 @@ async def get_banner_by_id(banner_id: int, session: AsyncSession) -> Banner:
 async def get_banner(feature_id: int, session: AsyncSession) -> Banner:
     stmt = select(Banner).options(selectinload(Banner.tags)).filter(Banner.feature_id == feature_id)
     result: Result = await session.execute(stmt)
-    banner = result.scalar().all()
+    # banner = result.scalar().all()
+    banner = result.scalar()
     return banner
 
 
@@ -108,3 +109,10 @@ async def get_tags_by_ids(tag_ids: list, session: AsyncSession):
     result: Result = await session.execute(stmt)
     tags = result.scalars().all()
     return list(tags)
+
+
+async def get_tag(tag_id: int, session: AsyncSession):
+    stmt = select(Tag).filter(Tag.id == tag_id)
+    result: Result = await session.execute(stmt)
+    tag = result.scalar()
+    return tag
