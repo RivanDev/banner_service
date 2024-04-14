@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.responses import Response
 
 from application.api.banners.dependencies import (
     admin_auth,
@@ -60,8 +61,7 @@ async def create_banner(
     "/",
     summary="Получение всех баннеров с фильтрацией по фиче и/или тегу",
     responses={
-        status.HTTP_200_OK: {"model": list[BannerOut], "description": "OK"},
-        status.HTTP_400_BAD_REQUEST: {"description": "Некорректные данные"},
+        status.HTTP_200_OK: {"model": list[BannerOutFiltered], "description": "OK"},
         status.HTTP_401_UNAUTHORIZED: {"description": "Пользователь не авторизован"},
         status.HTTP_403_FORBIDDEN: {"description": "Пользователь не имеет доступа"},
         status.HTTP_404_NOT_FOUND: {"description": "Баннер не найден"},
@@ -79,7 +79,18 @@ async def get_banners_by_filters(
     return banners
 
 
-@banner_router.patch("/{id}", summary="Обновление содержимого баннера")
+@banner_router.patch(
+    "/{id}",
+    summary="Обновление содержимого баннера",
+    responses={
+        status.HTTP_200_OK: {"description": "OK"},
+        status.HTTP_400_BAD_REQUEST: {"description": "Некорректные данные"},
+        status.HTTP_401_UNAUTHORIZED: {"description": "Пользователь не авторизован"},
+        status.HTTP_403_FORBIDDEN: {"description": "Пользователь не имеет доступа"},
+        status.HTTP_404_NOT_FOUND: {"description": "Баннер не найден"},
+        status.HTTP_500_INTERNAL_SERVER_ERROR: {"description": "Внутренняя ошибка сервера"},
+    },
+)
 async def update_banner(
     banner_id: int = Path(..., alias="id"),
     token: str = Depends(admin_auth),
@@ -88,7 +99,18 @@ async def update_banner(
     return banner
 
 
-@banner_router.delete("/{id}", summary="Удаление баннера по идентификатору")
+@banner_router.delete(
+    "/{id}",
+    summary="Удаление баннера по идентификатору",
+    responses={
+        status.HTTP_204_NO_CONTENT: {"description": "OK"},
+        status.HTTP_400_BAD_REQUEST: {"description": "Некорректные данные"},
+        status.HTTP_401_UNAUTHORIZED: {"description": "Пользователь не авторизован"},
+        status.HTTP_403_FORBIDDEN: {"description": "Пользователь не имеет доступа"},
+        status.HTTP_404_NOT_FOUND: {"description": "Баннер не найден"},
+        status.HTTP_500_INTERNAL_SERVER_ERROR: {"description": "Внутренняя ошибка сервера"},
+    },
+)
 async def delete_banner(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
     banner_id: int = Path(..., alias="id"),
@@ -98,4 +120,4 @@ async def delete_banner(
         await crud.delete_banner(banner_id, session)
     except BannerNotFoundException:
         raise HTTPException(status_code=404)
-    return status.HTTP_204_NO_CONTENT
+    return Response(status_code=204)
